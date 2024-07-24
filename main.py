@@ -1,40 +1,53 @@
 import os
 import shutil
 import re
+from typing import List
 
-def create_folders_and_copy_file(base_path, x, source_file):
-    # Format the number to 3 digits
+def create_folders_and_copy_file(base_path: str, x: int, source_file: str) -> None:
+    """
+    创建文件夹并复制AEP文件到新文件夹中。
+
+    :param base_path: 基础路径
+    :param x: 文件夹编号
+    :param source_file: 源AEP文件路径
+    """
+    # 将数字格式化为3位
     formatted_number = f"{x:03d}"
 
-    # Define the main folder name
+    # 定义主文件夹名称
     main_folder = f"epnd_c{formatted_number}_lo"
 
-    # Define subfolders
+    # 定义子文件夹
     subfolders = ["_bg", "_clip", "_conte", "_info", "_lo", "_pool", "_sheet"]
 
-    # Create the main folder
+    # 创建主文件夹
     main_folder_path = os.path.join(base_path, main_folder)
     os.makedirs(main_folder_path, exist_ok=True)
 
-    # Create the subfolders inside the main folder
+    # 创建主文件夹内的子文件夹
     for subfolder in subfolders:
         subfolder_path = os.path.join(main_folder_path, subfolder)
         os.makedirs(subfolder_path, exist_ok=True)
 
-    # Define the destination file name
+    # 定义目标文件名称
     destination_file = f"epnd_c{formatted_number}_v01_1920816_hon.aep"
     destination_path = os.path.join(main_folder_path, destination_file)
 
-    # Copy and rename the file
+    # 复制并重命名文件
     shutil.copy2(source_file, destination_path)
 
     print(f"创建卡文件夹: {main_folder}")
     print(f"复制AEP到: {destination_path}")
 
-def list_cards(base_path):
+def list_cards(base_path: str) -> None:
+    """
+    列出基础路径中的所有卡文件夹。
+
+    :param base_path: 基础路径
+    """
     try:
-        folders = [f for f in os.listdir(base_path) if os.path.isdir(os.path.join(base_path, f))]
-        card_folders = [folder for folder in folders if re.match(r"epnd_c\d{3}(?:_\d{3})?_lo", folder)]
+        folders: List[str] = [f for f in os.listdir(base_path) if os.path.isdir(os.path.join(base_path, f))]
+        card_folders: List[str] = [folder for folder in folders if re.match(r"epnd_c\d{3}(?:_\d{3})?_lo", folder)]
         if card_folders:
             print("当前卡有:")
             for folder in card_folders:
@@ -44,10 +57,16 @@ def list_cards(base_path):
     except Exception as e:
         print(f"读取卡文件夹时出错: {e}")
 
-def delete_card(base_path, x):
-    # Format the number to 3 digits
+def delete_card(base_path: str, x: int) -> None:
+    """
+    删除指定编号的卡文件夹。
+
+    :param base_path: 基础路径
+    :param x: 文件夹编号
+    """
+    # 将数字格式化为3位
     formatted_number = f"{x:03d}"
-    # Define the folder name to be deleted
+    # 定义要删除的文件夹名称
     folder_to_delete = f"epnd_c{formatted_number}_lo"
     folder_path = os.path.join(base_path, folder_to_delete)
     try:
@@ -63,14 +82,22 @@ def delete_card(base_path, x):
     except Exception as e:
         print(f"删除卡文件夹时出错: {e}")
 
-def create_multiple_folders(base_path, start, end, source_file):
+def create_multiple_folders(base_path: str, start: int, end: int, source_file: str) -> None:
+    """
+    批量创建文件夹并复制AEP文件。
+
+    :param base_path: 基础路径
+    :param start: 起始编号
+    :param end: 结束编号
+    :param source_file: 源AEP文件路径
+    """
     for i in range(start, end + 1):
         create_folders_and_copy_file(base_path, i, source_file)
 
-# Define the base path where the folders should be created
+# 定义文件夹创建的基础路径
 base_path = r"/Users/chenxing/Documents/卒制/EPND_PRODUCTION/"
 
-# Define the source file path
+# 定义源文件路径
 aep_file = r"/Users/chenxing/Documents/卒制/EPND_PRODUCTION/epnd_c000_v01_1920816_hon.aep"
 
 print("创建卡文件夹系统")

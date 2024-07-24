@@ -39,13 +39,13 @@ epnd_cxxx_lo/
 1. 克隆本仓库到你的本地机器：
 
 ```bash
-git clone https://github.com/yourusername/your-repo-name.git
+git clone https://github.com/ChenxingM/CreateCutFolder.git
 ```
 
 2. 导航到项目目录：
 
 ```bash
-cd your-repo-name
+cd CreateCutFolder
 ```
 
 3. 修改脚本中的基础路径和源文件路径：
@@ -58,7 +58,7 @@ aep_file = r"/path/to/your/source/file/epnd_c000_v01_1920816_hon.aep"
 4. 运行脚本：
 
 ```bash
-python create_folders.py
+python create_cut_folders.py
 ```
 
 ### 脚本交互
